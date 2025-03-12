@@ -44,18 +44,19 @@ merged = merged[merged['status']=='Released']
 # =====================================================
 
 # create new dataframes for 'genre', 'production', 'cast'
-import json
 
-# 'genre' dataframe
-genres_dict = {}
-
-for genre_json in merged['genres']:
-    genres = json.loads(genre_json)
-    for genre in genres:
-        genres_dict[genre['id']] = genre['name'] # genre= {'id': int, 'name': str}
-
-genre_df = pd.DataFrame.from_dict(data=genres_dict, orient='index').sort_index()
-genre_df.rename(columns={0 : 'name'}, inplace=True)
+def get_genre_df(df):
+    import json
+    genres_dict = {}
+    
+    for genre_json in df['genres']:
+        genres = json.loads(genre_json)
+        for genre in genres:
+            genres_dict[genre['id']] = genre['name'] # genre= {'id': int, 'name': str}
+    
+    genre_df = pd.DataFrame.from_dict(data=genres_dict, orient='index').sort_index()
+    genre_df.rename(columns={0 : 'name'}, inplace=True)
+    return genre_df
 
 # TODO : 'production_companies' dataframe
 
