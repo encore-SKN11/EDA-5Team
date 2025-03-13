@@ -143,13 +143,14 @@
 | `genres` | 영화 장르 (JSON 형식) | O | 28 |
 | `vote_average` | 평균 평점 |  | 63 |
 | `vote_count` | 평점 투표 수 |  | 62 |
-| `popularity` | 관객수 |  | 1 |
+| `popularity` | 인기도 |  | 1 |
 | `release_date` | 개봉일 |  | 1 |
 | `production_companies` | 제작사 (JSON 형식) | O | 350 |
 | `production_countries` | 제작 국가 |  | 174 |
 | `cast` | 출연 배우 리스트 (JSON 형식) | O | 43 |
 | `crew` | 감독 | O |  |
-
+<br/>
+`popularity`는 TMDB에서 자체적으로 계산한 값으로, 여러 요인들을 동시에 고려한 값임.
 <br/><br/>
 
 
@@ -162,20 +163,20 @@
 2. **이상치 처리**
    비현실적인 값 조정
     - release_date : 1개의 데이터이므로 drop
-    - buget : 투자 수익률(ROI=revenue/buget) 수치에 큰 영향을 주는 이상값 drop
+    - budget : 투자 수익률(ROI=revenue/budget) 수치에 큰 영향을 주는 이상값 drop
       | Budget | ROI |
       | --- | --- |
       | ![image](./img/outliers.png) | ![image](./img/roi_outliers.png) |
-      | - 데이터는 맞으나 다른 Buget 데이터와 비교하기 위해 drop | - Buget이 너무 작아 ROI의 값이 너무 커짐 & 다른 ROI 데이터와 비교하기 위해 drop|
+      | - 데이터는 맞으나 다른 budget 데이터와 비교하기 위해 drop | - budget이 너무 작아 ROI의 값이 너무 커짐 & 다른 ROI 데이터와 비교하기 위해 drop|
     - cast : 조연출에 대한 정보를 채워넣을 방법이 없어 drop
 3. **결측치 처리**
-   - revenue, buget : 합산하여 약 1500개의 누락값 존재 --> drop
+   - revenue, budget : 합산하여 약 1500개의 누락값 존재 --> drop
      - 흥행요인(영화가 잘 되는 요인)을 분석하는데, null값이나 너무 낮은 값은 오히려 흥행이 안되서 데이터가 누락된 것으로 판단
      - 흥행하지 않은 데이터를 제외함으로써, 흥행요인에 대한 신뢰성 확보
 4. **특성 엔지니어링** (새로운 컬럼 추가)
     - **투자 수익률(ROI)** : `(profit / budget) * 100`
     - **개봉 연도** : `release_date`에서 추출
-    - **implation 적용 달러 수치** : `revenue`,`buget`에서 추출
+    - **implation 적용 달러 수치** : `revenue`,`budget`에서 추출
 
 <br/><br/>
 
@@ -314,7 +315,42 @@
 ![image](./img/box_popularity.png)
 - 왼쪽 boxplot의 Q3을 기준으로 영화들을 나눈 뒤, 하위 그룹(오른쪽)의 Q3값을 기준으로 '인기' 영화를 판정.
 
+- 최종적으로, *인기있는 영화를 **일정 수 이상** 제작한 감독 / 많이 출연한 배우* 들을 '인기' 감독/배우로 설정함.
+<br><br/>
+
+#### 인기 감독의 목록 (5명)
+
+| **감독명** | **대표작** | 
+|:--:|:--:|
+| Steven Spielberg | 인디아나 존스, E.T. |
+| Tim Burton | 배트맨, 혹성탈출 |
+| Michael Bay | 더 록, 트랜스포머 |
+| Quentin Tarantino | 펄프 픽션, 장고: 분노의 추격자 |
+| Martin Scorsese | Good Fellas, 더 울프 오브 월 스트리트 |
+<br/>
+
+**인기 감독들이 제작한 영화의 성과** <br/>
+
+![image](./img/scatter_directors.png)
+
+- 많은 인기작을 보유한 감독들의 수가 훨씬 적지만, 각각의 영화로 올린 수익이 나머지 감독들에 비해 대체로 높음.
+
+<br><br/>
+#### 인기 배우의 목록 (5명)
+| **배우명** | **대표작** | 
+|:--:|:--:|
+| Samuel L. Jackson | 쥬라기 공원, 어벤져스 |
+| Liam Neeson | 쉰들러 리스트, 테이큰 |
+| Johnny Depp | 캐리비안의 해적, 찰리와 초콜릿 공장 |
+| Morgan Freeman | 쇼생크 탈출, 배트맨 시리즈 |
+| Matt Damon | 라이언 일병 구하기, 인터스텔라 |
+
+**인기 배우들이 출연한 영화의 성과** <br/>
+
+![image](./img/scatter_actors_quantile.png)
+
 - 
+
 
 ## 4️⃣ "폭망 영화" 유형 분석 → 제작비 대비 영화 흥행률 비교
 - 어떤 장르가 실패 확률이 높은지?
