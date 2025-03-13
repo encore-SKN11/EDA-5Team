@@ -150,7 +150,8 @@
 | `cast` | 출연 배우 리스트 (JSON 형식) | O | 43 |
 | `crew` | 감독 | O |  |
 <br/>
-`popularity`는 TMDB에서 자체적으로 계산한 값으로, 여러 요인들을 동시에 고려한 값임.
+
+- `popularity`는 TMDB에서 자체적으로 계산한 값으로, 여러 요인들을 동시에 고려한 값임.
 <br/><br/>
 
 
@@ -349,7 +350,7 @@
 
 ![image](./img/scatter_actors_quantile.png)
 
-- 
+- 같은 `movie_count` 내에서 확실히 인기있는 배우들의 `revenue`가 위쪽에 있는 모습을 볼 수 있음.
 
 
 ## 4️⃣ "폭망 영화" 유형 분석 → 제작비 대비 영화 흥행률 비교
