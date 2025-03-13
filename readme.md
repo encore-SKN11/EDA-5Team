@@ -166,7 +166,7 @@
       | Budget | ROI |
       | --- | --- |
       | ![image](./img/outliers.png) | ![image](./img/roi_outliers.png) |
-      | 데이터는 맞으나 다른 Buget 데이터와 비교하기 위해 drop | Buget이 너무 작아 ROI의 값이 너무 커짐 |
+      | - 데이터는 맞으나 다른 Buget 데이터와 비교하기 위해 drop | - Buget이 너무 작아 ROI의 값이 너무 커짐 & 다른 ROI 데이터와 비교하기 위해 drop|
     - cast : 조연출에 대한 정보를 채워넣을 방법이 없어 drop
 3. **결측치 처리**
    - revenue, buget : 합산하여 약 1500개의 누락값 존재 --> drop
