@@ -80,35 +80,9 @@
 
 ## 기술 스택
 
-<br/>
-
-### <협업 및 소통 툴>
-
-<p>
-  <img src="https://img.shields.io/badge/Notion-%23000000.svg?style=for-the-badge&logo=notion&logoColor=white">
-  <img src="https://img.shields.io/badge/git-%23F05033.svg?style=for-the-badge&logo=git&logoColor=white">
-  <img src="https://img.shields.io/badge/github-181717?style=for-the-badge&logo=github&logoColor=white">
-  <img src="https://img.shields.io/badge/Visual%20Studio%20Code-0078d7.svg?style=for-the-badge&logo=vscode&logoColor=white">
-  <img src="https://img.shields.io/badge/Discord-%235865F2.svg?style=for-the-badge&logo=discord&logoColor=white">
-</p>
-
-### <UI 설계>
-<p>
-  <img src="https://img.shields.io/badge/figma-%23F24E1E.svg?style=for-the-badge&logo=figma&logoColor=white">
-</p>
-
-### <Frontend 및 웹 크롤러>
-
-<p>
-  <img src="https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=Python&logoColor=white">
-  <img src="https://img.shields.io/badge/Streamlit-%23FE4B4B.svg?style=for-the-badge&logo=streamlit&logoColor=white">
-  <img src="https://img.shields.io/badge/Selenium-43B02A?style=for-the-badge&logo=Selenium&logoColor=white">
-  
-</p>
 
 ### <DB 및 데이터 시각화>
 <p>
-  <img src="https://img.shields.io/badge/MySQL-4479A1?style=for-the-badge&logo=MySQL&logoColor=white">
   <img src="https://img.shields.io/badge/pandas-150458.svg?style=for-the-badge&logo=pandas&logoColor=white">
   <img src="https://img.shields.io/badge/matplotlib-0077B5.svg?style=for-the-badge&logo=matplotlib&logoColor=white">
 </p>
@@ -184,8 +158,15 @@ Kaggle - **TMDB 5000 Movie Dataset** : TMDB에서 제공하는 영화 데이�
 2. **이상치 처리**
    비현실적인 값 조정
     - release_date : 1개의 데이터이므로 drop
-    - budget, revenue : 1000 이상만 남김
+    - revenue, buget : 투자 수익률(ROI=revenue/buget) 수치에 영향을 주는 이상값 drop
+      | Budget | ROI |
+      | --- | --- |
+      | ![image](./img/outliers.png) | ![image](./img/roi_outliers.png) |
     - cast : 채워넣을 방법이 없어 drop
+3. **결측치 처리**
+   - revenue, buget : 합산하여 약 1500개의 누락값 존재
+     - 흥행요인(영화가 잘 되는 요인)을 분석하는데, null값이나 너무 낮은 값은 오히려 흥행이 안되서 데이터가 누락된 것으로 판단
+     - 흥행하지 않은 데이터를 제외하므로써, 흥행요인에 대한 신뢰성 확보
 4. **특성 엔지니어링** (새로운 컬럼 추가)
     - **투자 수익률(ROI)** : `(profit / budget) * 100`
     - **개봉 연도** : `release_date`에서 추출
@@ -199,14 +180,37 @@ Kaggle - **TMDB 5000 Movie Dataset** : TMDB에서 제공하는 영화 데이�
 
 # **🔍 탐색적 데이터 분석 (EDA)**
 
-## 1️⃣ 제작비 vs 수익 관계
+## 데이터 상관관계 확인
+![image](./img/cor_heatmap.png)
+<br/><br/>
+
+## 1️⃣ 제작비/평점 vs 수익 관계
 
 영화의 제작비가 수익에 미치는 영향을 분석합니다.
-제작비가 높은 영화일수록 흥행 성공 가능성이 높을까?
+제작비/평점이 높은 영화일수록 흥행 성공 가능성이 높을까?
 
-### 📊 시각화: 제작비와 수익 간의 관계 그래프
-
+### 📊 시각화 및 인사이트
+#### 제작비와 수익 간의 상관관계
+![image](./img/budget_revenue.png)
+![image](./img/attach_img.png)
+- 제작비와 수익이 비례하는 것을 확인(양의 상관관계)했습니다. 제작비용이 높을수록 영화의 퀄리티가 높아져 더 많은 관객들의 흥미를 끌 수 있습니다.
 <br/>
+
+#### 평점와 수익 간의 상관관계
+![image](./img/vote_average_revenue.png)
+- 의외로 평점과 수익은 비례하나 상관관계는 적습니다.
+- 평점은 영화의 질을 반영하지만 대중적 흥행과 직접적 연관이 없고, 특히, 주관적인 평가가 미치는 영향이 큽니다.
+<br/>
+
+#### 추천수와 수익 간의 상관관계
+![image](./img/vote_count_revenue.png)
+- 추천수와 수익은 비례하며 상관관계가 큰 것을 확인했습니다.
+- 추천수는 관객 수와 직결되며, 관객 수가 많을수록 수익도 증가합니다.
+
+<br/><br/>
+
+
+
 
 ## 2️⃣ 개봉 시기가 흥행에 미치는 영향
 - 영화 산업의 역사
@@ -219,16 +223,18 @@ Kaggle - **TMDB 5000 Movie Dataset** : TMDB에서 제공하는 영화 데이�
 
 ![image](img/output1.png)
 </br>
+
 **장기적인 산업 성장**
 전반적으로 영화 제작 수는 시간이 지남에 따라 꾸준히 증가했으며, 이는 영화가 중요한 문화적, 경제적 산업으로 자리 잡았음을 보여줍니다.
 </br></br>
+
 #### 연도별 수익 변화 분석
 
 ![image](img/output2.png)
 
 </br>
 
-![image](img/output2_2.png)
+![image](img/output2_1.png)
 
 1. **1930~1940년대 : 급격한 수익 증가**
   그래프에서 가장 두드러진 특징은 1940년대 초반에 평균 영화 수익이 급격히 증가했다는 점입니다. 
@@ -304,7 +310,7 @@ Kaggle - **TMDB 5000 Movie Dataset** : TMDB에서 제공하는 영화 데이�
 
 ## **🏆 핵심 인사이트 및 결론(수정 필요)**
 
-🔹 **제작비와 수익 간의 관계**: 대체로 **제작비가 많을수록 높은 수익을 기록**하는 경향이 있지만, 일부 저예산 영화도 높은 ROI를 기록함.
+🔹 **제작비/평점과 수익 간의 관계**: 대체로 **제작비가 많을수록 높은 수익을 기록**하는 경향이 있음. 의외로 **평점과 수익간의 관계는 낮은 편**이며, **추천수와 수익간의 관계가 높음**.
 
 🔹 **장르별 분석**: 액션, 모험 장르가 평균적으로 높은 수익을 기록했으며, **비평적으로는 드라마와 다큐멘터리가 높은 평점**을 받음.
 
