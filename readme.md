@@ -131,12 +131,13 @@
 1. **데이터 정제** : 누락된 값 및 빈 JSON 필드 새로운 데이터 프레임으로 분리
 2. **이상치 처리**
    비현실적인 값 조정
-    - release_date : 1개의 데이터이므로 drop
-    - budget : 투자 수익률(ROI=revenue/budget) 수치에 큰 영향을 주는 이상값 drop
+    
+    - budget : 투자 수익률(ROI=revenue/budget) 수치에 큰 영향을 주는 이상값 drop <br><br/>
       | Budget | ROI |
       | --- | --- |
       | ![image](./img/outliers.png) | ![image](./img/roi_outliers.png) |
       | - 데이터는 맞으나 다른 budget 데이터와 비교하기 위해 drop | - budget이 너무 작아 ROI의 값이 너무 커짐 & 다른 ROI 데이터와 비교하기 위해 drop|
+   - release_date : 1개의 데이터이므로 drop
     - cast : 조연출에 대한 정보를 채워넣을 방법이 없어 drop
 3. **결측치 처리**
    - revenue, budget : 합산하여 약 1500개의 누락값 존재 --> drop
