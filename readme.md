@@ -146,7 +146,7 @@
 4. **특성 엔지니어링** (새로운 컬럼 추가)
     - **투자 수익률(ROI)** : `(profit / budget) * 100`
     - **개봉 연도** : `release_date`에서 추출
-    - **implation 적용 달러 수치** : `revenue`,`budget`에서 추출
+    - **인플레이션율 적용 화폐가치** : `revenue`,`budget`에서 추출
 
 <br/><br/>
 
