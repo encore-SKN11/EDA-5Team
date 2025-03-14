@@ -138,7 +138,7 @@
       | ![image](./img/outliers.png) | ![image](./img/roi_outliers.png) |
       | - 데이터는 맞으나 다른 budget 데이터와 비교하기 위해 drop | - budget이 너무 작아 ROI의 값이 너무 커짐 & 다른 ROI 데이터와 비교하기 위해 drop|
    - release_date : 1개의 데이터이므로 drop
-    - cast : 조연출에 대한 정보를 채워넣을 방법이 없어 drop
+    - cast : 출연진에 대한 정보를 채워넣을 방법이 없어 drop
 3. **결측치 처리**
    - revenue, budget : 합산하여 약 1500개의 누락값 존재 --> drop
      - 흥행요인(영화가 잘 되는 요인)을 분석하는데, null값이나 너무 낮은 값은 오히려 흥행이 안되서 데이터가 누락된 것으로 판단
